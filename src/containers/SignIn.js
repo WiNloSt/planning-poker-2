@@ -1,10 +1,9 @@
 import React from 'react'
-import { Link } from 'react-static'
-import SignInForm from '../components/SignInForm'
+import { GoogleSignInButton } from '../components/GoogleSignInButton'
 
 export default () => (
   <div>
     <h1>SignIn</h1>
-    <SignInForm />
+    <GoogleSignInButton />
   </div>
 )
