@@ -7,7 +7,7 @@ const Navigation = (props, { authUser }) => (
 )
 
 Navigation.contextTypes = {
-  authUser: PropTypes.object,
+  authUser: PropTypes.object
 }
 
 const NavigationAuth = () => (

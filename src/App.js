@@ -1,18 +1,22 @@
 import React from 'react'
 import { Router, Link } from 'react-static'
 import { hot } from 'react-hot-loader'
-//
 import Routes from 'react-static-routes'
+import * as R from 'ramda'
+
 import Navigation from './components/Navigation'
 import withAuthentication from './session/withAuthentication'
 
 import './app.css'
+import { withProvider } from './store'
 
-const App = withAuthentication(() => (
+const Component = () => (
   <Router>
     <div>
       <nav>
-        <Link exact to="/">Home</Link>
+        <Link exact to="/">
+          Home
+        </Link>
         <Link to="/about">About</Link>
         <Link to="/blog">Blog</Link>
       </nav>
@@ -22,6 +26,11 @@ const App = withAuthentication(() => (
       </div>
     </div>
   </Router>
-))
+)
+
+const App = R.compose(
+  withProvider,
+  withAuthentication
+)(Component)
 
 export default hot(module)(App)

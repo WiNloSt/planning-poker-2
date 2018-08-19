@@ -1,9 +1,16 @@
 import React from 'react'
+
 import { GoogleSignInButton } from '../components/GoogleSignInButton'
+import { Consumer } from '../store'
 
 export default () => (
-  <div>
-    <h1>SignIn</h1>
-    <GoogleSignInButton />
-  </div>
+  <Consumer>
+    {({ authUser }) => (
+      <div>
+        {authUser && authUser.email}
+        <h1>SignIn</h1>
+        <GoogleSignInButton />
+      </div>
+    )}
+  </Consumer>
 )
