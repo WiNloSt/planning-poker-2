@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import * as R from 'ramda'
+import { message } from 'antd'
 
 import { firebase, auth } from '../firebase'
 import { withConsumer } from '../store'
@@ -26,7 +27,7 @@ const withAuthentication = Component => {
         if (authUser) {
           const isProntoUser = /@prontomarketing.com$/.test(authUser.email)
           if (!isProntoUser) {
-            console.log('hruuu not support other email other than pronto account')
+            message.error('Please login with Pronto Marketing account')
             auth.doSignOut()
             return
           }
