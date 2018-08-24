@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import * as R from 'ramda'
 
-import { firebase } from '../firebase'
+import { firebase, auth } from '../firebase'
 import { withConsumer } from '../store'
 
 const withAuthentication = Component => {
@@ -24,6 +24,12 @@ const withAuthentication = Component => {
     componentDidMount() {
       firebase.auth.onAuthStateChanged(authUser => {
         if (authUser) {
+          const isProntoUser = /@prontomarketing.com$/.test(authUser.email)
+          if (!isProntoUser) {
+            console.log('hruuu not support other email other than pronto account')
+            auth.doSignOut()
+            return
+          }
           this.setState(() => ({ authUser }))
           this.props.context.setContext({
             authUser
