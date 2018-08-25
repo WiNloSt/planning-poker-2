@@ -6,8 +6,8 @@ export const Condition = ({ condition, children }) => (
   </React.Fragment>
 )
 
-const T = ({ condition, children }) => !!condition && children()
-const F = ({ condition, children }) => !condition && children()
+const True = ({ condition, children }) => !!condition && children()
+const False = ({ condition, children }) => !condition && children()
 
-Condition.T = T
-Condition.F = F
+Condition.True = True
+Condition.False = False

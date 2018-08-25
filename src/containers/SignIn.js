@@ -8,7 +8,7 @@ export default () => (
   <Consumer>
     {({ authUser }) => (
       <div>
-        <Condition.T condition={authUser}>{() => authUser.email}</Condition.T>
+        <Condition.True condition={authUser}>{() => authUser.email}</Condition.True>
         <h1>SignIn</h1>
         <GoogleSignInButton />
       </div>

@@ -8,7 +8,9 @@ import Navigation from './components/Navigation'
 import withAuthentication from './session/withAuthentication'
 
 import './app.css'
-import { withProvider } from './store'
+import { withProvider, Consumer } from './store'
+import { Condition } from './components/Condition'
+import { Avatar } from 'antd'
 
 const Component = () => (
   <Router>
@@ -16,12 +18,24 @@ const Component = () => (
       <Head>
         <title>Planning Poker</title>
       </Head>
-      <nav>
+      <nav style={{ display: 'flex', alignItems: 'center' }}>
         <Link exact to="/">
           Home
         </Link>
         <Link to="/about">About</Link>
         <Link to="/blog">Blog</Link>
+        <Consumer>
+          {({ authUser }) => (
+            <Condition.True condition={authUser}>
+              {() => (
+                <Avatar
+                  style={{ marginLeft: 'auto', marginRight: '1rem' }}
+                  src={authUser.photoURL}
+                />
+              )}
+            </Condition.True>
+          )}
+        </Consumer>
       </nav>
       <Navigation />
       <div className="content">
