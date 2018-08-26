@@ -10,7 +10,8 @@ import withAuthentication from './session/withAuthentication'
 import './app.css'
 import { withProvider, Consumer } from './store'
 import { Condition } from './components/Condition'
-import { Avatar } from 'antd'
+import { Avatar, Popover, Button } from 'antd'
+import { auth } from './firebase'
 
 const Component = () => (
   <Router>
@@ -25,10 +26,20 @@ const Component = () => (
           {({ authUser }) => (
             <Condition.True condition={authUser}>
               {() => (
-                <Avatar
-                  style={{ marginLeft: 'auto', marginRight: '1rem' }}
-                  src={authUser.photoURL}
-                />
+                <Popover
+                  title={authUser.email}
+                  content={
+                    <div className="cf">
+                      <Button className="fr" onClick={auth.doSignOut}>
+                        Sign out
+                      </Button>
+                    </div>
+                  }
+                  placement="bottomRight"
+                  arrowPointAtCenter
+                  trigger="click">
+                  <Avatar className="ml-auto mr3 pointer" src={authUser.photoURL} />
+                </Popover>
               )}
             </Condition.True>
           )}
