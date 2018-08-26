@@ -9,8 +9,8 @@ const signIn = () => {
   firebase.auth().signInWithRedirect(provider)
 }
 
-export const GoogleSignInButton = () => (
-  <Button type="primary" size="large" onClick={signIn}>
-    sign in with Google
+export const GoogleSignInButton = props => (
+  <Button {...props} type="primary" size="large" onClick={signIn}>
+    {props.loading ? 'loading...' : 'sign in with Google'}
   </Button>
 )

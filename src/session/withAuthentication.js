@@ -23,6 +23,9 @@ const withAuthentication = Component => {
     }
 
     componentDidMount() {
+      this.props.context.setContext({
+        isUserLoaded: false
+      })
       firebase.auth.onAuthStateChanged(authUser => {
         if (authUser) {
           const isProntoUser = /@prontomarketing.com$/.test(authUser.email)
@@ -33,12 +36,14 @@ const withAuthentication = Component => {
           }
           this.setState(() => ({ authUser }))
           this.props.context.setContext({
-            authUser
+            authUser,
+            isUserLoaded: true
           })
         } else {
           this.setState(() => ({ authUser: null }))
           this.props.context.setContext({
-            authUser: null
+            authUser: null,
+            isUserLoaded: true
           })
         }
       })

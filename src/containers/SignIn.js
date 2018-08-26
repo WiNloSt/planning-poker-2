@@ -6,11 +6,11 @@ import { Condition } from '../components/Condition'
 
 export default () => (
   <Consumer>
-    {({ authUser }) => (
+    {({ authUser, isUserLoaded }) => (
       <div>
         <Condition.True condition={authUser}>{() => authUser.email}</Condition.True>
         <h1>SignIn</h1>
-        <GoogleSignInButton />
+        <GoogleSignInButton loading={!isUserLoaded} />
       </div>
     )}
   </Consumer>
