@@ -1,5 +1,5 @@
 import React from 'react'
-import { Router, Link, Head } from 'react-static'
+import { Router, Link } from 'react-static'
 import { hot } from 'react-hot-loader'
 import Routes from 'react-static-routes'
 import * as R from 'ramda'
@@ -15,9 +15,6 @@ import { Avatar } from 'antd'
 const Component = () => (
   <Router>
     <div>
-      <Head>
-        <title>Planning Poker</title>
-      </Head>
       <nav style={{ display: 'flex', alignItems: 'center' }}>
         <Link exact to="/">
           Home
