@@ -23,7 +23,7 @@ export const Condition = ({ condition, children }) => {
           isSameComponent(child.type, Condition.False)
         ) {
           return React.cloneElement(child, {
-            condition: !R.isNil(child.props.condition) ? child.props.condition : condition
+            condition: child.props.condition !== undefined ? child.props.condition : condition
           })
         } else {
           return child
@@ -33,14 +33,14 @@ export const Condition = ({ condition, children }) => {
   )
 }
 Condition.propTypes = {
-  condition: PropTypes.bool,
+  condition: PropTypes.any,
   children: PropTypes.oneOfType([PropTypes.func, PropTypes.node]).isRequired
 }
 
 const True = ({ condition, children }) =>
-  !R.isNil(condition) && !!condition && renderChildren(children)
+  condition !== undefined && !!condition && renderChildren(children)
 const False = ({ condition, children }) =>
-  !R.isNil(condition) && !condition && renderChildren(children)
+  condition !== undefined && !condition && renderChildren(children)
 // Exactly doing like True but we need another cllass for checking in the parent Condition component
 const If = True.bind({})
 
