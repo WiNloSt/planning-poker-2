@@ -1,11 +1,11 @@
 import React from 'react'
-import { withSiteData, Redirect } from 'react-static'
+import { Redirect } from 'react-static'
 
 import { Consumer } from '../store'
 import { Condition } from '../components/Condition'
 
-export default withSiteData(() => (
-  <div>
+export default () => (
+  <React.Fragment>
     <Consumer>
       {({ isUserLoaded, authUser }) => (
         <Condition.True condition={isUserLoaded && !authUser}>
@@ -13,6 +13,6 @@ export default withSiteData(() => (
         </Condition.True>
       )}
     </Consumer>
-    <h1 style={{ textAlign: 'center' }}>Please login</h1>
-  </div>
-))
+    <h1 style={{ textAlign: 'center' }}>Home</h1>
+  </React.Fragment>
+)
