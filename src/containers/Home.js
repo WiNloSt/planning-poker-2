@@ -1,11 +1,18 @@
 import React from 'react'
-import { withSiteData } from 'react-static'
-//
-import logoImg from '../logo.png'
+import { withSiteData, Redirect } from 'react-static'
+
+import { Consumer } from '../store'
+import { Condition } from '../components/Condition'
 
 export default withSiteData(() => (
   <div>
-    <h1 style={{ textAlign: 'center' }}>Welcome to</h1>
-    <img src={logoImg} alt="" />
+    <Consumer>
+      {({ isUserLoaded, authUser }) => (
+        <Condition.True condition={isUserLoaded && !authUser}>
+          <Redirect to="signin" />
+        </Condition.True>
+      )}
+    </Consumer>
+    <h1 style={{ textAlign: 'center' }}>Please login</h1>
   </div>
 ))
