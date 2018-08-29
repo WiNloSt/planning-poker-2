@@ -1,11 +1,24 @@
-import { db } from './config'
+import { db, auth } from './config'
 
 export const onCards = cb =>
-  db.collection('cards').orderBy('point').onSnapshot(snapshot => {
-    const cards = []
-    snapshot.forEach(doc => {
-      cards.push(doc.data())
+  db
+    .collection('cards')
+    .orderBy('point')
+    .onSnapshot(snapshot => {
+      const cards = []
+      snapshot.forEach(doc => {
+        cards.push({ id: doc.id, ...doc.data() })
+      })
+
+      cb(cards)
     })
 
-    cb(cards)
+export const onVote = cb =>
+  db.doc(`votes/${auth.currentUser.email}`).onSnapshot(doc => {
+    cb(doc.data())
+  })
+
+export const createVote = point =>
+  db.doc(`votes/${auth.currentUser.email}`).set({
+    point
   })

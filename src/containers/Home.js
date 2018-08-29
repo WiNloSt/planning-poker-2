@@ -1,8 +1,9 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Redirect } from 'react-static'
 import styled from 'styled-components'
 
-import { Consumer } from '../store'
+import { Consumer, withConsumer } from '../store'
 import { Condition } from '../components/Condition'
 import { db } from '../firebase'
 import { Button as UnstyledButton } from 'antd'
@@ -24,11 +25,20 @@ const FlexContainer = styled.div`
   }
 `
 
-const Button = styled(UnstyledButton)`
+// eslint-disable-next-line no-unused-vars
+const Button = styled(({ currentVote: discard, ...rest }) => <UnstyledButton {...rest} />)`
   font-size: 3rem;
   width: 2.5em;
   height: 1.5em;
   line-height: 1;
+
+  ${props =>
+    props.currentVote &&
+    `
+    color: #40a9ff;
+    background-color: #fff;
+    border-color: #40a9ff;
+  `};
 
   @media only screen and (max-width: 479px) {
     width: 100%;
@@ -46,19 +56,26 @@ const RedirectToSigninIfNotLoggedIn = () => (
 )
 
 class Home extends React.Component {
+  static propTypes = {
+    context: PropTypes.object
+  }
   state = {
-    cards: []
+    cards: [],
+    currentVote: null
   }
 
   componentDidMount() {
-    this.unsub = db.onCards(cards => this.setState({ cards }))
+    this.unsubList = [db.onCards(cards => this.setState({ cards }))]
   }
 
   componentWillUnmount() {
-    this.unsub()
+    this.unsubList.forEach(unsub => unsub && unsub())
   }
 
   render() {
+    if (this.props.context.authUser && !this.state.currentVote) {
+      this.unsubList.push(db.onVote(vote => this.setState({ currentVote: vote.point })))
+    }
     return (
       <React.Fragment>
         <RedirectToSigninIfNotLoggedIn />
@@ -66,7 +83,12 @@ class Home extends React.Component {
         <FlexContainer>
           {this.state.cards.map(card => (
             <div key={card.id}>
-              <Button size="large">{card.point}</Button>
+              <Button
+                size="large"
+                currentVote={this.state.currentVote === card.point}
+                onClick={() => db.createVote(card.point)}>
+                {card.point}
+              </Button>
             </div>
           ))}
         </FlexContainer>
@@ -75,4 +97,4 @@ class Home extends React.Component {
   }
 }
 
-export default Home
+export default withConsumer(Home)
