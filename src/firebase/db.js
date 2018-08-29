@@ -1,3 +1,5 @@
+import firebase from 'firebase/app'
+
 import { db, auth } from './config'
 
 export const onCards = cb =>
@@ -16,6 +18,11 @@ export const onCards = cb =>
 export const onVote = cb =>
   db.doc(`votes/${auth.currentUser.email}`).onSnapshot(doc => {
     cb(doc.data())
+  })
+
+export const removeVote = () =>
+  db.doc(`votes/${auth.currentUser.email}`).update({
+    point: firebase.firestore.FieldValue.delete()
   })
 
 export const createVote = point =>

@@ -64,8 +64,29 @@ class Home extends React.Component {
     currentVote: null
   }
 
+  createOnClick = point => () => {
+    const canUseDOM = typeof window !== 'undefined'
+    if (canUseDOM) {
+      setTimeout(() => document.activeElement.blur())
+    }
+    if (point !== this.state.currentVote) {
+      db.createVote(point)
+    } else {
+      db.removeVote()
+    }
+  }
+
   componentDidMount() {
     this.unsubList = [db.onCards(cards => this.setState({ cards }))]
+    if (this.props.context.authUser) {
+      this.unsubList.push(db.onVote(vote => this.setState({ currentVote: vote.point })))
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (!this.props.context.authUser && nextProps.context.authUser) {
+      this.unsubList.push(db.onVote(vote => this.setState({ currentVote: vote.point })))
+    }
   }
 
   componentWillUnmount() {
@@ -73,9 +94,6 @@ class Home extends React.Component {
   }
 
   render() {
-    if (this.props.context.authUser && !this.state.currentVote) {
-      this.unsubList.push(db.onVote(vote => this.setState({ currentVote: vote.point })))
-    }
     return (
       <React.Fragment>
         <RedirectToSigninIfNotLoggedIn />
@@ -86,7 +104,7 @@ class Home extends React.Component {
               <Button
                 size="large"
                 currentVote={this.state.currentVote === card.point}
-                onClick={() => db.createVote(card.point)}>
+                onClick={this.createOnClick(card.point)}>
                 {card.point}
               </Button>
             </div>
