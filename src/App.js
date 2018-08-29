@@ -10,7 +10,7 @@ import { withProvider, Consumer } from './store'
 import { NavAvatar } from './NavAvatar'
 import { Layout } from 'antd'
 import { Condition } from './components/Condition'
-import { injectGlobal } from 'styled-components'
+import styled, { injectGlobal } from 'styled-components'
 
 injectGlobal`
   #root {
@@ -23,6 +23,11 @@ injectGlobal`
       margin-left: auto;
       margin-right: auto;
   }
+`
+
+const Content = styled(Layout.Content)`
+  padding-left: 1rem;
+  padding-right: 1rem;
 `
 
 const Component = () => (
@@ -46,13 +51,13 @@ const Component = () => (
           </li>
         </nav>
       </Layout.Header>
-      <Layout.Content style={{ padding: '0 50px' }}>
+      <Content>
         <div className="container">
           <div style={{ background: '#fff', padding: 24, minHeight: 280, marginTop: 50 }}>
             <Routes />
           </div>
         </div>
-      </Layout.Content>
+      </Content>
       <Layout.Footer style={{ textAlign: 'center' }} />
     </Layout>
   </Router>
