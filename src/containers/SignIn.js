@@ -12,7 +12,7 @@ export default () => (
         <Condition.True condition={authUser}>
           <Redirect to="/" />
         </Condition.True>
-        <h1 className="mt0">SignIn</h1>
+        <h1 className="mt0">Login to start</h1>
         <GoogleSignInButton loading={!isUserLoaded} />
       </div>
     )}
