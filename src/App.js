@@ -6,11 +6,24 @@ import * as R from 'ramda'
 
 import withAuthentication from './session/withAuthentication'
 
-import './app.css'
 import { withProvider, Consumer } from './store'
 import { NavAvatar } from './NavAvatar'
 import { Layout } from 'antd'
 import { Condition } from './components/Condition'
+import { injectGlobal } from 'styled-components'
+
+injectGlobal`
+  #root {
+      min-height: 100%;
+      display: flex;
+  }
+
+  .container {
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+  }
+`
 
 const Component = () => (
   <Router>

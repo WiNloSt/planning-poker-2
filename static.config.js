@@ -1,10 +1,8 @@
 import React from 'react'
 
 export default {
-  getSiteData: () => ({
-    title: 'React Static'
-  }),
-  getRoutes: async () => {
+  plugins: ['react-static-plugin-styled-components'],
+  getRoutes: () => {
     return [
       {
         path: '/',

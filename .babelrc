@@ -1,9 +1,11 @@
 {
     "extends": "react-static/.babelrc",
     "plugins": [
-        "react-hot-loader/babel", ["import", {
+        "react-hot-loader/babel",
+        ["import", {
             "libraryName": "antd",
             "style": "css"
-        }]
+        }],
+        "babel-plugin-styled-components"
     ]
 }
