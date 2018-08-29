@@ -1,14 +1,11 @@
 import { db } from './config'
 
-// User API
+export const onCards = cb =>
+  db.collection('cards').orderBy('point').onSnapshot(snapshot => {
+    const cards = []
+    snapshot.forEach(doc => {
+      cards.push(doc.data())
+    })
 
-export const doCreateUser = (id, username, email) =>
-  db.ref(`users/${id}`).set({
-    username,
-    email,
+    cb(cards)
   })
-
-export const onceGetUsers = () =>
-  db.ref('users').once('value')
-
-// Other db APIs ...
