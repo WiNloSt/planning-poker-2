@@ -8,6 +8,8 @@ import { Condition } from '../components/Condition'
 import { db } from '../firebase'
 import { Button as UnstyledButton } from 'antd'
 
+const canUseDOM = typeof window !== 'undefined'
+
 const FlexContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -32,12 +34,20 @@ const Button = styled(({ currentVote: discard, ...rest }) => <UnstyledButton {..
   height: 1.5em;
   line-height: 1;
 
+  &.is-touch {
+    &:hover {
+      color: rgba(0, 0, 0, 0.65);
+      background-color: #fff;
+      border-color: #d9d9d9;
+    }
+  }
+
   ${props =>
     props.currentVote &&
     `
-    color: #40a9ff;
-    background-color: #fff;
-    border-color: #40a9ff;
+    color: #40a9ff !important;
+    background-color: #fff !important;
+    border-color: #40a9ff !important;
   `};
 
   @media only screen and (max-width: 479px) {
@@ -61,11 +71,11 @@ class Home extends React.Component {
   }
   state = {
     cards: [],
-    currentVote: null
+    currentVote: null,
+    className: ''
   }
 
   createOnClick = point => () => {
-    const canUseDOM = typeof window !== 'undefined'
     if (canUseDOM) {
       setTimeout(() => document.activeElement.blur())
     }
@@ -77,6 +87,9 @@ class Home extends React.Component {
   }
 
   componentDidMount() {
+    if (canUseDOM && true && 'ontouchstart' in document.documentElement) {
+      this.setState({ className: 'is-touch' })
+    }
     this.unsubList = [db.onCards(cards => this.setState({ cards }))]
     if (this.props.context.authUser) {
       this.unsubList.push(db.onVote(vote => this.setState({ currentVote: vote.point })))
@@ -103,6 +116,7 @@ class Home extends React.Component {
             <div key={card.id}>
               <Button
                 size="large"
+                className={this.state.className}
                 currentVote={this.state.currentVote === card.point}
                 onClick={this.createOnClick(card.point)}>
                 {card.point}
