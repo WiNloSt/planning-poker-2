@@ -3,6 +3,7 @@ import { Table } from 'antd'
 import * as R from 'ramda'
 
 import { Consumer } from '../store'
+import withAuthorization from '../session/withAuthorization'
 
 const roundToPoint = points => number => Math.round(number * 10 ** points) / 10 ** points
 
@@ -82,4 +83,4 @@ const Result = () => (
   </React.Fragment>
 )
 
-export default Result
+export default withAuthorization(R.identity)(Result)
