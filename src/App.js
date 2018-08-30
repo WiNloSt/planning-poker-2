@@ -34,6 +34,20 @@ const Nav = styled.nav`
   }
 `
 
+const Page = styled.div`
+  background: #fff;
+  padding: 24px;
+  min-height: 280px;
+
+  @media only screen and (max-width: 479px) {
+    margin-top: 1.5em;
+  }
+
+  @media only screen and (min-width: 480px) {
+    margin-top: 50px;
+  }
+`
+
 const Component = () => (
   <Router>
     <Layout>
@@ -62,9 +76,9 @@ const Component = () => (
       </Layout.Header>
       <Content>
         <div className="container">
-          <div style={{ background: '#fff', padding: 24, minHeight: 280, marginTop: 50 }}>
+          <Page>
             <Routes />
-          </div>
+          </Page>
         </div>
       </Content>
       <Layout.Footer style={{ textAlign: 'center' }} />
