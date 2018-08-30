@@ -8,21 +8,37 @@ import withAuthentication from './session/withAuthentication'
 
 import { withProvider, Consumer } from './store'
 import { NavAvatar } from './NavAvatar'
-import { Layout } from 'antd'
+import { Layout as UnstyledLayout } from 'antd'
 import { Condition } from './components/Condition'
 import styled from 'styled-components'
 import 'style.css'
+
+const Layout = styled(UnstyledLayout)`
+  & > .ant-layout-header {
+    padding: 0 1rem;
+  }
+`
 
 const Content = styled(Layout.Content)`
   padding-left: 1rem;
   padding-right: 1rem;
 `
 
+const Nav = styled.nav`
+  display: flex;
+  list-style: none;
+
+  & > li:not(:last-child) {
+    list-style: none;
+    padding-right: 1.5em;
+  }
+`
+
 const Component = () => (
   <Router>
     <Layout>
       <Layout.Header>
-        <nav style={{ display: 'flex' }} className="container">
+        <Nav className="container">
           <li>
             <Link exact to="/">
               Home
@@ -42,7 +58,7 @@ const Component = () => (
               )}
             </Consumer>
           </li>
-        </nav>
+        </Nav>
       </Layout.Header>
       <Content>
         <div className="container">
