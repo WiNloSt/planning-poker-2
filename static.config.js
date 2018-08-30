@@ -6,19 +6,19 @@ export default {
     return [
       {
         path: '/',
-        component: 'src/containers/Home'
+        component: 'src/pages/Home'
       },
       {
         path: '/result',
-        component: 'src/containers/Result'
+        component: 'src/pages/Result'
       },
       {
         path: '/signin',
-        component: 'src/containers/SignIn'
+        component: 'src/pages/SignIn'
       },
       {
         is404: true,
-        component: 'src/containers/404'
+        component: 'src/pages/404'
       }
     ]
   },
