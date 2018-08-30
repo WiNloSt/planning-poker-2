@@ -9,6 +9,10 @@ export default {
         component: 'src/containers/Home'
       },
       {
+        path: '/result',
+        component: 'src/containers/Result'
+      },
+      {
         path: '/signin',
         component: 'src/containers/SignIn'
       },

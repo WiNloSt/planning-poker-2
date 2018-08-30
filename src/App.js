@@ -40,6 +40,11 @@ const Component = () => (
               Home
             </Link>
           </li>
+          <li>
+            <Link exact to="/result">
+              Result
+            </Link>
+          </li>
           <li className="ml-auto">
             <Consumer>
               {({ authUser }) => (
