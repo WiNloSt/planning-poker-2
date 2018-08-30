@@ -69,9 +69,8 @@ class Home extends React.Component {
   static propTypes = {
     context: PropTypes.object
   }
+
   state = {
-    cards: [],
-    currentVote: null,
     className: ''
   }
 
@@ -79,7 +78,7 @@ class Home extends React.Component {
     if (canUseDOM) {
       setTimeout(() => document.activeElement.blur())
     }
-    if (point !== this.state.currentVote) {
+    if (point !== this.props.context.currentVote) {
       db.createVote(point)
     } else {
       db.removeVote()
@@ -90,20 +89,6 @@ class Home extends React.Component {
     if (canUseDOM && true && 'ontouchstart' in document.documentElement) {
       this.setState({ className: 'is-touch' })
     }
-    this.unsubList = [db.onCards(cards => this.setState({ cards }))]
-    if (this.props.context.authUser) {
-      this.unsubList.push(db.onVote(vote => this.setState({ currentVote: vote.point })))
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (!this.props.context.authUser && nextProps.context.authUser) {
-      this.unsubList.push(db.onVote(vote => this.setState({ currentVote: vote.point })))
-    }
-  }
-
-  componentWillUnmount() {
-    this.unsubList.forEach(unsub => unsub && unsub())
   }
 
   render() {
@@ -112,12 +97,12 @@ class Home extends React.Component {
         <RedirectToSigninIfNotLoggedIn />
         <h1 style={{ textAlign: 'center' }}>Let's vote!!!</h1>
         <FlexContainer>
-          {this.state.cards.map(card => (
+          {this.props.context.cards.map(card => (
             <div key={card.id}>
               <Button
                 size="large"
                 className={this.state.className}
-                currentVote={this.state.currentVote === card.point}
+                currentVote={this.props.context.currentVote === card.point}
                 onClick={this.createOnClick(card.point)}>
                 {card.point}
               </Button>
