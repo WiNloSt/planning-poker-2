@@ -31,6 +31,10 @@ const Nav = styled.nav`
   & > li:not(:last-child) {
     list-style: none;
     padding-right: 1.5em;
+
+    & > a {
+      display: block;
+    }
   }
 `
 
@@ -52,7 +56,7 @@ const Component = () => (
   <Router>
     <Layout>
       <Layout.Header>
-        <Nav className="container">
+        <Nav className="container f4">
           <li>
             <Link exact to="/">
               Home
