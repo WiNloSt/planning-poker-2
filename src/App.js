@@ -10,20 +10,8 @@ import { withProvider, Consumer } from './store'
 import { NavAvatar } from './NavAvatar'
 import { Layout } from 'antd'
 import { Condition } from './components/Condition'
-import styled, { injectGlobal } from 'styled-components'
-
-injectGlobal`
-  #root {
-      min-height: 100%;
-      display: flex;
-  }
-
-  .container {
-      max-width: 800px;
-      margin-left: auto;
-      margin-right: auto;
-  }
-`
+import styled from 'styled-components'
+import 'style.css'
 
 const Content = styled(Layout.Content)`
   padding-left: 1rem;
