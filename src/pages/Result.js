@@ -4,7 +4,14 @@ import * as R from 'ramda'
 
 import { Consumer } from '../store'
 
-const columns = [{ dataIndex: 'point', title: 'Point' }, { dataIndex: 'votes', title: 'Votes' }]
+const roundToPoint = points => number => Math.round(number * 10 ** points) / 10 ** points
+
+const round = roundToPoint(1)
+
+const columns = [
+  { dataIndex: 'point', title: 'Point', className: 'f4' },
+  { dataIndex: 'votes', title: 'Votes', className: 'f4' }
+]
 
 const Result = () => (
   <React.Fragment>
@@ -26,7 +33,50 @@ const Result = () => (
           }
         })
 
-        return <Table dataSource={dataSource} columns={columns} />
+        const nonNullVotes = R.pipe(R.map(R.prop('point')))(votes)
+
+        return (
+          <Table
+            rowClassName="f3"
+            dataSource={dataSource}
+            columns={columns}
+            bordered
+            pagination={false}
+            footer={
+              dataSource.length > 0
+                ? () => (
+                    <div className="f3">
+                      Average:{' '}
+                      <strong>
+                        {R.pipe(
+                          R.mean,
+                          round,
+                          R.defaultTo('-')
+                        )(nonNullVotes)}
+                      </strong>
+                      <br />
+                      Rounded:{' '}
+                      <strong>
+                        {R.pipe(
+                          R.mean,
+                          Math.round,
+                          R.defaultTo('-')
+                        )(nonNullVotes)}
+                      </strong>
+                      <br />
+                      Median:{' '}
+                      <strong>
+                        {R.pipe(
+                          R.median,
+                          R.defaultTo('-')
+                        )(nonNullVotes)}
+                      </strong>
+                    </div>
+                  )
+                : null
+            }
+          />
+        )
       }}
     </Consumer>
   </React.Fragment>

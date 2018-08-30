@@ -21,6 +21,8 @@ module.exports = {
       }
     ],
     'jsx-quotes': 'off',
-    camelcase: 'off'
+    camelcase: 'off',
+    indent: 'off',
+    'react/jsx-indent': 'off'
   }
 }
