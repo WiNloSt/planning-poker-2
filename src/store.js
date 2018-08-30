@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import * as R from 'ramda'
 
 import { db } from './firebase'
 
@@ -35,7 +36,7 @@ export class Provider extends React.Component {
       this.unsubscribeList.push(
         db.onCards(cards => this.setState({ cards })),
         db.onVotes(votes => this.setState({ votes })),
-        db.onVote(vote => this.setState({ currentVote: vote.point }))
+        db.onVote(vote => this.setState({ currentVote: R.prop('point', vote) }))
       )
     }
 

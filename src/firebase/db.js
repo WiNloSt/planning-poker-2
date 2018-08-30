@@ -36,6 +36,21 @@ export const removeVote = () =>
     point: null
   })
 
+export const removeAllVotes = async () => {
+  const batch = db.batch()
+  await db
+    .collection('votes')
+    .where('point', '>=', 0)
+    .get()
+    .then(snapShot => {
+      snapShot.forEach(doc => {
+        batch.set(doc.ref, { point: null })
+      })
+    })
+
+  batch.commit()
+}
+
 export const createVote = point =>
   db.doc(`votes/${auth.currentUser.email}`).set({
     point

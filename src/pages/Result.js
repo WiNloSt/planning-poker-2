@@ -1,9 +1,11 @@
 import React from 'react'
-import { Table } from 'antd'
+import { Table, Button } from 'antd'
 import * as R from 'ramda'
+import styled from 'styled-components'
 
 import { Consumer } from '../store'
 import withAuthorization from '../session/withAuthorization'
+import { db } from '../firebase'
 
 const roundToPoint = points => number => Math.round(number * 10 ** points) / 10 ** points
 
@@ -14,9 +16,20 @@ const columns = [
   { dataIndex: 'votes', title: 'Votes', className: 'f4' }
 ]
 
+const FlexContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`
+
 const Result = () => (
   <React.Fragment>
-    <h1>Result</h1>
+    <FlexContainer>
+      <h1>Result</h1>
+      <Button type="primary" size="large" onClick={db.removeAllVotes}>
+        Clear votes
+      </Button>
+    </FlexContainer>
     <Consumer>
       {({ cards, votes }) => {
         const pointMap = votes.reduce(
