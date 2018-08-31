@@ -10,8 +10,20 @@ import { withProvider, Consumer } from './store'
 import { NavAvatar } from './NavAvatar'
 import { Layout as UnstyledLayout } from 'antd'
 import { Condition } from './components/Condition'
-import styled from 'styled-components'
-import 'style.css'
+import styled, { injectGlobal } from 'styled-components'
+
+injectGlobal`
+  #root {
+    min-height: 100%;
+    display: flex;
+  }
+
+  .container {
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+`
 
 const Layout = styled(UnstyledLayout)`
   & > .ant-layout-header {

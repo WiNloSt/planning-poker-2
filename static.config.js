@@ -1,7 +1,7 @@
 import React from 'react'
+import { ServerStyleSheet } from 'styled-components'
 
 export default {
-  plugins: ['react-static-plugin-styled-components'],
   getRoutes: () => {
     return [
       {
@@ -21,6 +21,12 @@ export default {
         component: 'src/pages/404'
       }
     ]
+  },
+  renderToHtml: (render, Comp, meta) => {
+    const sheet = new ServerStyleSheet()
+    const html = render(sheet.collectStyles(<Comp />))
+    meta.styleTags = sheet.getStyleElement()
+    return html
   },
   // eslint-disable-next-line react/prop-types
   Document: ({ Html, Head, Body, children, renderMeta }) => (
