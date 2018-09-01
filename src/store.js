@@ -17,7 +17,7 @@ export class Provider extends React.Component {
     setContext: this.setContext,
     authUser: null,
     cards: { loading: true, data: [] },
-    votes: [],
+    votes: { loading: true, data: [] },
     currentVote: null
   }
 
@@ -35,7 +35,7 @@ export class Provider extends React.Component {
     if (justLoggedIn) {
       this.unsubscribeList.push(
         db.onCards(cards => this.setState({ cards: { loading: false, data: cards } })),
-        db.onVotes(votes => this.setState({ votes })),
+        db.onVotes(votes => this.setState({ votes: { loading: false, data: votes } })),
         db.onVote(vote => this.setState({ currentVote: R.prop('point', vote) }))
       )
     }

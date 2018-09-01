@@ -27,35 +27,35 @@ const FlexContainer = styled.div`
 `
 
 const Result = () => (
-  <Card
-    title={
-      <FlexContainer>
-        <h1>Result</h1>
-        <Button type="primary" size="large" onClick={db.removeAllVotes}>
-          Clear votes
-        </Button>
-      </FlexContainer>
-    }>
-    <Consumer>
-      {({ cards, votes }) => {
-        const pointMap = votes.reduce(
-          (map, vote) => R.over(R.lensProp(vote.point), R.add(1), map),
-          cards.data.reduce((map, card) => ({ ...map, [card.point]: 0 }), {})
-        )
+  <Consumer>
+    {({ cards, votes }) => {
+      const pointMap = votes.data.reduce(
+        (map, vote) => R.over(R.lensProp(vote.point), R.add(1), map),
+        cards.data.reduce((map, card) => ({ ...map, [card.point]: 0 }), {})
+      )
 
-        const dataSource = Object.keys(pointMap).map((key, index) => {
-          const value = pointMap[key]
+      const dataSource = Object.keys(pointMap).map((key, index) => {
+        const value = pointMap[key]
 
-          return {
-            key: index,
-            point: key,
-            votes: value
+        return {
+          key: index,
+          point: key,
+          votes: value
+        }
+      })
+
+      const nonNullVotes = R.pipe(R.map(R.prop('point')))(votes.data)
+      return (
+        <Card
+          title={
+            <FlexContainer>
+              <h1>Result</h1>
+              <Button type="primary" size="large" onClick={db.removeAllVotes}>
+                Clear votes
+              </Button>
+            </FlexContainer>
           }
-        })
-
-        const nonNullVotes = R.pipe(R.map(R.prop('point')))(votes)
-
-        return (
+          loading={cards.loading || votes.loading}>
           <Table
             rowClassName="f3"
             dataSource={dataSource}
@@ -96,10 +96,10 @@ const Result = () => (
                 : null
             }
           />
-        )
-      }}
-    </Consumer>
-  </Card>
+        </Card>
+      )
+    }}
+  </Consumer>
 )
 
 export default withAuthorization(R.identity)(Result)

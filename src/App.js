@@ -3,6 +3,7 @@ import { Router, Link } from 'react-static'
 import { hot } from 'react-hot-loader'
 import Routes from 'react-static-routes'
 import * as R from 'ramda'
+import 'antd/lib/col/style/css' // missing styles for ant.design loader
 
 import withAuthentication from './session/withAuthentication'
 
