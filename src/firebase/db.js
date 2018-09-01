@@ -32,9 +32,15 @@ export const onVote = cb =>
   })
 
 export const removeVote = () =>
-  db.doc(`votes/${auth.currentUser.email}`).set({
-    point: null
-  })
+  db.doc(`votes/${auth.currentUser.email}`).set(
+    {
+      point: null,
+      user: {
+        photoURL: auth.currentUser.photoURL
+      }
+    },
+    { merge: true }
+  )
 
 export const removeAllVotes = async () => {
   const batch = db.batch()
@@ -44,7 +50,7 @@ export const removeAllVotes = async () => {
     .get()
     .then(snapShot => {
       snapShot.forEach(doc => {
-        batch.set(doc.ref, { point: null })
+        batch.set(doc.ref, { point: null }, { merge: true })
       })
     })
 
@@ -52,6 +58,12 @@ export const removeAllVotes = async () => {
 }
 
 export const createVote = point =>
-  db.doc(`votes/${auth.currentUser.email}`).set({
-    point
-  })
+  db.doc(`votes/${auth.currentUser.email}`).set(
+    {
+      point,
+      user: {
+        photoURL: auth.currentUser.photoURL
+      }
+    },
+    { merge: true }
+  )
