@@ -51,10 +51,6 @@ const Nav = styled.nav`
 `
 
 const Page = styled.div`
-  background: #fff;
-  padding: 24px;
-  min-height: 280px;
-
   @media only screen and (max-width: 479px) {
     margin-top: 1.5em;
   }

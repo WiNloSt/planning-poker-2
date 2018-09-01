@@ -1,14 +1,18 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Redirect } from 'react-static'
 import styled from 'styled-components'
+import * as R from 'ramda'
 
-import { Consumer, withConsumer } from '../store'
-import { Condition } from '../components/Condition'
+import { withConsumer } from '../store'
 import { db } from '../firebase'
-import { Button as UnstyledButton } from 'antd'
+import { Button as UnstyledButton, Card } from 'antd'
+import withAuthorization from '../session/withAuthorization'
 
 const canUseDOM = typeof window !== 'undefined'
+
+const Header = styled.h1`
+  margin: 0;
+`
 
 const FlexContainer = styled.div`
   display: flex;
@@ -55,16 +59,6 @@ const Button = styled(({ currentVote: discard, ...rest }) => <UnstyledButton {..
   }
 `
 
-const RedirectToSigninIfNotLoggedIn = () => (
-  <Consumer>
-    {({ isUserLoaded, authUser }) => (
-      <Condition.True condition={isUserLoaded && !authUser}>
-        <Redirect to="signin" />
-      </Condition.True>
-    )}
-  </Consumer>
-)
-
 class Home extends React.Component {
   static propTypes = {
     context: PropTypes.object
@@ -93,11 +87,9 @@ class Home extends React.Component {
 
   render() {
     return (
-      <React.Fragment>
-        <RedirectToSigninIfNotLoggedIn />
-        <h1 style={{ textAlign: 'center' }}>Let's vote!!!</h1>
+      <Card title={<Header>Let's vote!!!</Header>} loading={this.props.context.cards.loading}>
         <FlexContainer>
-          {this.props.context.cards.map(card => (
+          {this.props.context.cards.data.map(card => (
             <div key={card.id}>
               <Button
                 size="large"
@@ -109,9 +101,12 @@ class Home extends React.Component {
             </div>
           ))}
         </FlexContainer>
-      </React.Fragment>
+      </Card>
     )
   }
 }
 
-export default withConsumer(Home)
+export default R.compose(
+  withAuthorization(R.identity),
+  withConsumer
+)(Home)

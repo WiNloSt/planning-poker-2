@@ -1,5 +1,5 @@
 import React from 'react'
-import { Table, Button } from 'antd'
+import { Table, Button, Card } from 'antd'
 import * as R from 'ramda'
 import styled from 'styled-components'
 
@@ -20,21 +20,27 @@ const FlexContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  & > h1 {
+    margin: 0;
+  }
 `
 
 const Result = () => (
-  <React.Fragment>
-    <FlexContainer>
-      <h1>Result</h1>
-      <Button type="primary" size="large" onClick={db.removeAllVotes}>
-        Clear votes
-      </Button>
-    </FlexContainer>
+  <Card
+    title={
+      <FlexContainer>
+        <h1>Result</h1>
+        <Button type="primary" size="large" onClick={db.removeAllVotes}>
+          Clear votes
+        </Button>
+      </FlexContainer>
+    }>
     <Consumer>
       {({ cards, votes }) => {
         const pointMap = votes.reduce(
           (map, vote) => R.over(R.lensProp(vote.point), R.add(1), map),
-          cards.reduce((map, card) => ({ ...map, [card.point]: 0 }), {})
+          cards.data.reduce((map, card) => ({ ...map, [card.point]: 0 }), {})
         )
 
         const dataSource = Object.keys(pointMap).map((key, index) => {
@@ -93,7 +99,7 @@ const Result = () => (
         )
       }}
     </Consumer>
-  </React.Fragment>
+  </Card>
 )
 
 export default withAuthorization(R.identity)(Result)
