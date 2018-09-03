@@ -57,6 +57,7 @@ const Result = () => (
           }
           loading={cards.loading || votes.loading}>
           <Table
+            size="small"
             rowClassName="f3"
             dataSource={dataSource}
             columns={columns}
